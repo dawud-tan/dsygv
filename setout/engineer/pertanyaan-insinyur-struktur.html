@@ -1,0 +1,209 @@
+<!doctype html>
+<!--
+  One-page A4 checklist for the meeting with the structural engineer.
+  The PDF next to this file is rendered from it:
+
+    google-chrome --headless --no-pdf-header-footer \
+      --print-to-pdf=pertanyaan-insinyur-struktur.pdf pertanyaan-insinyur-struktur.html
+
+  Numbers come from src/SeismicParams.kt, src/SectionCapacity.kt, src/DesignVariant.kt,
+  the harness figures in CLAUDE.md and the SO-02 notes in setout/sheets.py. Change them
+  there first; check `pdfinfo` still says "Pages: 1" after any edit.
+-->
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pertanyaan untuk Insinyur Struktur</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --muted: #555;
+    --rule: #b8b8b8;
+    --accent: #7a2e12;
+    --paper: #fff;
+    --tint: #f4f1ec;
+  }
+  @page { size: A4; margin: 9mm 10mm 8mm; }
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    margin: 0 auto;
+    max-width: 190mm;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 8.45pt/1.29 "Noto Sans", "DejaVu Sans", Arial, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @media screen { body { padding: 10mm 12px; } }
+
+  header { border-bottom: 1.4pt solid var(--ink); padding-bottom: 1.6mm; margin-bottom: 2mm; }
+  h1 { font-size: 15pt; line-height: 1.1; margin: 0; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); margin-top: 0.8mm; }
+  .fields { display: flex; gap: 5mm; margin-top: 2.2mm; }
+  .fields span { flex: 1; border-bottom: 0.6pt solid var(--ink); padding-bottom: 0.4mm; white-space: nowrap; }
+  .lead { background: var(--tint); padding: 1.6mm 2.2mm; margin: 0 0 2mm; border-left: 2pt solid var(--accent); }
+  .lead b { color: var(--accent); }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 6mm; }
+  section { margin-bottom: 1.6mm; }
+  h2 {
+    font-size: 9.2pt; margin: 0 0 0.8mm; padding-bottom: 0.4mm;
+    border-bottom: 0.6pt solid var(--rule); break-after: avoid;
+  }
+  h2 .n { color: var(--accent); margin-right: 1mm; }
+  .note { color: var(--muted); font-style: italic; margin: 0 0 1mm; }
+
+  ol { list-style: none; margin: 0; padding: 0; }
+  li {
+    display: grid; grid-template-columns: 3.4mm 6.4mm 1fr; column-gap: 1mm;
+    margin-bottom: 1.15mm; break-inside: avoid;
+  }
+  .box { width: 3.1mm; height: 3.1mm; border: 0.8pt solid var(--ink); margin-top: 0.35mm; }
+  .num { font-weight: 700; text-align: right; }
+  .star { color: var(--accent); }
+  li b { font-weight: 700; }
+  sub, sup { line-height: 0; font-size: 72%; }
+  .head { break-inside: avoid; }
+
+  footer { margin-top: 1.2mm; border-top: 1.4pt solid var(--ink); padding-top: 1.4mm; }
+  .bring { margin: 0 0 1.6mm; }
+  .lines { height: 21mm; background: repeating-linear-gradient(to bottom, transparent 0 6.6mm, var(--rule) 6.6mm 6.9mm); }
+  .fine { color: var(--muted); font-size: 7pt; margin-top: 0.8mm; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Pertanyaan untuk Insinyur Struktur</h1>
+  <div class="sub">Rumah Griya Sakha · Sumber, Jatipohon, Grobogan, Jawa Tengah · 1 lantai, 6,0&nbsp;×&nbsp;10,3&nbsp;m,
+    rangka beton K250 dengan dinding geser di as 1 dan as 3</div>
+  <div class="fields">
+    <span>Tanggal:</span><span>Nama insinyur:</span><span>No. SKK:</span>
+  </div>
+</header>
+
+<p class="lead">Aplikasi analisis milik pemilik hanyalah <b>pembanding, bukan desain</b>. Aplikasi itu <b>tidak</b>
+  memeriksa dinding geser, join balok–kolom, panjang sambungan dan penyaluran, angkur dinding pengisi, apa pun di
+  bawah sloof, maupun atap. Mohon tunjukkan bagian model yang keliru: yang dicari koreksi, bukan persetujuan.
+  <span class="star">★</span> = prioritas bila waktu terbatas.</p>
+
+<div class="cols">
+<div class="col">
+
+<section>
+  <h2><span class="n">A</span>Insinyur dan hasil kerjanya</h2>
+  <ol>
+    <li><span class="box"></span><span class="num">1</span><span><b>Sertifikat:</b> SKK apa yang dimiliki, dan di bidang apa?</span></li>
+    <li><span class="box"></span><span class="num">2</span><span><b>Gambar kerja struktur lengkap dengan detail</b> (jarak sengkang, kait,
+      sambungan lewatan, angkur), bukan hanya ukuran elemen? Tukang bekerja dari gambar; hitungan saja tidak mencegah
+      sengkang dipasang 25&nbsp;cm.</span></li>
+    <li><span class="box"></span><span class="num"><span class="star">★</span>3</span><span><b>Pemeriksaan besi sebelum setiap pengecoran, dengan
+      tanda tangan?</b> Rumah yang runtuh saat gempa di Indonesia umumnya gagal karena pelaksanaan, bukan desain.
+      Kunjungan inilah yang paling layak dibayar.</span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="head">
+  <h2><span class="n">B</span>Tanah dan fondasi</h2>
+  <p class="note">Untuk rumah 1 lantai, kemungkinan risiko yang lebih besar daripada gempa. Aplikasi tidak memeriksa
+    apa pun di bawah sloof.</p>
+  </div>
+  <ol>
+    <li><span class="box"></span><span class="num">4</span><span><b>Perlu uji tanah (sondir/bor)?</b> Spesifikasi mengasumsikan tanah sedang
+      (kelas situs SD); belum pernah diukur.</span></li>
+    <li><span class="box"></span><span class="num"><span class="star">★</span>5</span><span><b>Apakah tanahnya lempung ekspansif</b> (tanah hitam
+      yang mengembang saat basah dan menyusut saat kering), dan bagaimana fondasi menanganinya? Jenis dan kedalaman
+      fondasi, pelat lantai, drainase keliling agar air hujan tidak meresap ke bawah rumah.</span></li>
+    <li><span class="box"></span><span class="num">6</span><span><b>Ada bagian lahan berupa tanah urug, atau miring?</b></span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="head">
+  <h2><span class="n">C</span>Parameter gempa</h2>
+  <p class="note">Sesar Naik Kendeng (jalur sesar Baribis–Kendeng) sudah tercakup dalam peta bahaya gempa nasional
+    (PuSGeN 2017, dasar SNI 1726:2019). Yang perlu dipastikan adalah angka untuk lokasi ini, bukan nama sesarnya.</p>
+  </div>
+  <ol>
+    <li><span class="box"></span><span class="num">7</span><span><b>S<sub>s</sub> = 0,778 g dan S<sub>1</sub> = 0,348 g: benar untuk lokasi
+      rencana (6,966° LS, 110,927° BT) menurut peta terbaru?</b> Dengan kelas SD: S<sub>DS</sub> = 0,617 →
+      <b>KDS D</b>, yang membatasi sistem struktur yang diizinkan.</span></li>
+    <li><span class="box"></span><span class="num"><span class="star">★</span>8</span><span><b>Sistem strukturnya apa secara resmi, dan R
+      berapa?</b> (R: seberapa jauh gaya gempa boleh direduksi karena struktur dianggap mampu melentur tanpa runtuh.)
+      Aplikasi memakai R = 6, Ω<sub>0</sub> = 2,5, C<sub>d</sub> = 5, yaitu nilai <i>dinding geser beton bertulang
+      khusus</i>. Nilai itu hanya sah bila dinding didetail sebagai dinding khusus (SNI 2847:2019 pasal 18). Bila
+      sistemnya lain, mis. dinding bata terkekang, gaya gempanya berubah.</span></li>
+    <li><span class="box"></span><span class="num">9</span><span><b>Faktor redundansi ρ: 1,0 atau 1,3?</b> Aplikasi memakai 1,0; bila 1,3,
+      semua gaya gempa naik 30%.</span></li>
+  </ol>
+</section>
+
+</div>
+<div class="col">
+
+<section>
+  <div class="head">
+  <h2><span class="n">D</span>Detail penulangan</h2>
+  <p class="note">Menurut aplikasi, gaya pada rangka sangat kecil (lentur kolom 0,7% dari kapasitas). Yang paling
+    mendekati batas justru jarak sengkang (78%). Rumah ini ditentukan oleh detail, bukan oleh besarnya gaya.</p>
+  </div>
+  <ol>
+    <li><span class="box"></span><span class="num"><span class="star">★</span>10</span><span><b>Dua dinding geser beton 20&nbsp;cm di as 1 dan as 3</b>
+      memikul ±95% beban gempa dan tidak diperiksa aplikasi. Tulangannya apa? Ujung dinding dikekang bagaimana
+      (elemen batas)? Bagaimana dinding disambung ke sloof dan fondasi?</span></li>
+    <li><span class="box"></span><span class="num"><span class="star">★</span>11</span><span><b>Sengkang</b> (spesifikasi: 150&nbsp;mm). Berapa jaraknya di
+      dekat join dan di tengah bentang? Kait 135°, bukan 90°? Diteruskan melewati join balok–kolom? Aplikasi hanya
+      memeriksa batas kolom biasa (16 × D12 = 192&nbsp;mm); aturan KDS D di dekat join bisa jauh lebih rapat.</span></li>
+    <li><span class="box"></span><span class="num">12</span><span><b>Sambungan lewatan dan penyaluran:</b> berapa panjangnya, dan di mana
+      boleh disambung (tidak semua pada ketinggian yang sama, tidak tepat di join)? Seberapa jauh tulangan balok masuk
+      dan ditekuk ke dalam kolom?</span></li>
+    <li><span class="box"></span><span class="num">13</span><span><b>Dinding pengisi:</b> angkur ke kolom apa, berapa jaraknya? Di mana kolom
+      praktis dan balok latei di sekitar pintu/jendela? Bukaan belum dimasukkan ke aplikasi; jendela besar pada dinding
+      yang salah mengubah kekakuan.</span></li>
+    <li><span class="box"></span><span class="num">14</span><span><b>Beton K250:</b> diaduk di lokasi atau readymix? Diperiksa bagaimana (uji
+      slump, benda uji)? Bagaimana mencegah penambahan air saat pengecoran?</span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="head">
+  <h2><span class="n">E</span>Atap, angin dan hujan</h2>
+  <p class="note">Angin tidak mengancam rangka beton, tetapi bisa menerbangkan atap; puting beliung sering terjadi di
+    Jawa Tengah. Atap tidak dimodelkan di aplikasi.</p>
+  </div>
+  <ol>
+    <li><span class="box"></span><span class="num">15</span><span><b>Rangka baja ringan diangkur ke ring balok dengan apa, dan siapa yang
+      mendesainnya?</b> Biasanya aplikator: minta hitungan dan garansinya.</span></li>
+    <li><span class="box"></span><span class="num">16</span><span><b>Penutup atap diikat bagaimana di tepi, sudut dan overstek?</b> Talang dan
+      pipa turun cukup untuk hujan deras, dan airnya dibuang menjauhi fondasi (lihat no. 5)?</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="n">F</span>Khusus rencana rumah ini</h2>
+  <ol>
+    <li><span class="box"></span><span class="num">17</span><span><b>Siku baja ruang meridian</b> (L50.50.5, ±12&nbsp;kg) antara ring balok as C dan
+      as D, dijangkar ke sisi ring balok di antara tulangan 2+2 D12. Mohon persetujuan jenis dan posisi angkur;
+      tulangan dideteksi dulu sebelum dibor (lembar SO-02).</span></li>
+    <li><span class="box"></span><span class="num">18</span><span><b>Atap tidak direncanakan memikul beban tambahan.</b> Dek atap untuk
+      melihat matahari terbenam (±2,9&nbsp;t) berarti desain ulang, bukan tambahan. Setuju?</span></li>
+  </ol>
+</section>
+</div>
+
+</div>
+
+<footer>
+  <p class="bring"><b>Dibawa:</b> gambar kerja, spesifikasi, lembar SO-01..03, dan halaman <i>Report</i> serta
+    <i>Checks</i> dari aplikasi. Jawaban no. 4, 7, 8 dan 10 dimasukkan kembali ke aplikasi sebagai varian desain
+    baru untuk melihat pengaruhnya. <b>Catatan:</b></p>
+  <div class="lines"></div>
+  <div class="fine"><span>Griya Sakha · daftar pertanyaan untuk insinyur struktur</span><span>setout/engineer/pertanyaan-insinyur-struktur.html</span></div>
+</footer>
+
+</body>
+</html>

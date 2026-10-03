@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v jq >/dev/null 2>&1 || { echo 'hook skipped: jq not installed'; exit 0; }; file=$(jq -r '.tool_input.file_path'); case \"$file\" in *.kt) cd \"$CLAUDE_PROJECT_DIR\" && kotlinc src/*.kt -d build/hookcheck 2>&1 | grep -iE 'error|exception' | head -30 ;; esac",
+            "timeout": 180
+          }
+        ]
+      }
+    ]
+  }
+}

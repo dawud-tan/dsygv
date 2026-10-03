@@ -1,0 +1,17 @@
+*.iml
+/.gradle
+/.idea
+/local.properties
+.DS_Store
+/build
+/app/release
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/.kotlin
+__pycache__/
+*.pyc
+
+# generated drawing sheets (setout/sheets.py); reproducible, not source
+/setout/out/
