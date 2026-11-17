@@ -1,7 +1,7 @@
 [versions]
-agp = "9.4.1"
+agp = "9.5.1"
 desugar-jdk-libs = "2.1.5"
-kotlin = "2.4.20"
+kotlin = "2.4.21"
 
 [libraries]
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
