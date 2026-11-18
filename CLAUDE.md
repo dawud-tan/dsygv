@@ -88,8 +88,9 @@ reference instead.
 > Either restore the script (the two commands above are its whole body) or
 > fix the references — don't assume `./verify.sh` will run.
 
-**Device (Samsung SM-G980F over ADB).** The only path that exercises the real
-C++ eigensolver. Run from the repository root:
+**Device (arm64-v8a over ADB).** To exercise the real C++ eigensolver, run the
+JUnit 6.1.3 instrumented suite on Android 15 (API 35) or later. Run from the
+repository root:
 
 ```bash
 adb devices                          # must list the phone as "device"

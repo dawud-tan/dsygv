@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     alias(libs.plugins.android.application)
+    id("de.mannodermaus.android-junit") version "2.0.2"
 }
 
 kotlin {
@@ -137,6 +138,7 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.kotlin)
 
-    androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test:runner:1.7.0")
+    androidTestImplementation(platform("org.junit:junit-bom:6.1.3"))
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-api")
 }

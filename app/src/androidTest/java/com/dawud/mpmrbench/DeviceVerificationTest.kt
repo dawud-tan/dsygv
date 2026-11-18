@@ -1,6 +1,5 @@
 package com.dawud.mpmrbench
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import griyasakha.Assembler
 import griyasakha.DOF_PER_NODE
 import griyasakha.EigensystemResult
@@ -11,30 +10,28 @@ import griyasakha.MASTER_DOF_PER_NODE
 import griyasakha.matVec
 import griyasakha.runAllChecks
 import griyasakha.solveAllModesForTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Assert.fail
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-@RunWith(AndroidJUnit4::class)
 class DeviceVerificationTest {
 
     @Test
     fun harnessPassesOnDevice() {
         // runAllChecks() returns a count instead of calling exitProcess,
         // which would kill the instrumented test runner.
-        assertEquals("verification harness reported failures on device", 0, runAllChecks())
+        assertEquals(0, runAllChecks(), "verification harness reported failures on device")
     }
 
     @Test
     fun nativeLibraryLoads() {
         assertTrue(
+            EigensolverBridge.ensureLoaded(),
             "libmpmreigensolver.so failed to load -- check abiFilters " +
-                    "includes arm64-v8a and that CMake actually built it.",
-            EigensolverBridge.ensureLoaded()
+                    "includes arm64-v8a and that CMake actually built it."
         )
     }
 
@@ -48,7 +45,7 @@ class DeviceVerificationTest {
         val red = GuyanReduction.reduce(asm.K, asm.M, DOF_PER_NODE, MASTER_DOF_PER_NODE)
 
         val native = EigensolverBridge.solve(red.kReduced, red.mReduced)
-        assertEquals("mode count", red.kReduced.size, native.modes.size)
+        assertEquals(red.kReduced.size, native.modes.size, "mode count")
 
         // 1. Residual -- the real acceptance test. Does not depend on the
         //    JVM reference being correct.
@@ -60,7 +57,7 @@ class DeviceVerificationTest {
                 val r = kp[j] - m.omega2 * red.mReduced[j] * m.phi[j]
                 rn += r * r; kn += kp[j] * kp[j]
             }
-            assertTrue("mode $i residual ${sqrt(rn) / sqrt(kn)}", sqrt(rn) / sqrt(kn) < 1e-8)
+            assertTrue(sqrt(rn) / sqrt(kn) < 1e-8, "mode $i residual ${sqrt(rn) / sqrt(kn)}")
         }
 
         // 2. Mass normalization phi^T M phi = 1. Every downstream formula
@@ -69,7 +66,7 @@ class DeviceVerificationTest {
         for ((i, m) in native.modes.withIndex()) {
             var norm = 0.0
             for (j in m.phi.indices) norm += m.phi[j] * red.mReduced[j] * m.phi[j]
-            assertEquals("mode $i not mass-normalized", 1.0, norm, 1e-9)
+            assertEquals(1.0, norm, 1e-9, "mode $i not mass-normalized")
         }
 
         // 3. Eigenvalues vs JVM reference. Compare VALUES only -- eigenvectors
@@ -78,8 +75,8 @@ class DeviceVerificationTest {
         val reference = solveAllModesForTest(red.kReduced, red.mReduced)
         for (i in native.modes.indices) {
             assertEquals(
-                "eigenvalue $i", reference[i].omega2, native.modes[i].omega2,
-                1e-6 * maxOf(abs(reference[i].omega2), 1.0)
+                reference[i].omega2, native.modes[i].omega2,
+                1e-6 * maxOf(abs(reference[i].omega2), 1.0), "eigenvalue $i"
             )
         }
     }
@@ -90,11 +87,9 @@ class DeviceVerificationTest {
         // rather than yield an empty mode list. This covers the KOTLIN half
         // of the contract only -- see nativeRejectsMismatchedArrays() for the
         // half that actually crosses JNI.
-        try {
+        assertThrows(IllegalStateException::class.java, {
             EigensystemResult.unpack(DoubleArray(0), 24)
-            fail("expected an exception for rejected input")
-        } catch (e: IllegalStateException) { /* expected */
-        }
+        }, "expected an exception for rejected input")
     }
 
     @Test
@@ -106,20 +101,19 @@ class DeviceVerificationTest {
         assertTrue(EigensolverBridge.ensureLoaded())
         val short9 = DoubleArray(9) // sized for n=3, but we claim n=4
         val raw = EigensolverBridge.solveEigensystemRaw(short9, short9, 4)
-        assertEquals("native must signal rejection with an empty array", 0, raw.size)
+        assertEquals(0, raw.size, "native must signal rejection with an empty array")
 
         // n <= 0 is the other rejection branch.
         assertEquals(
-            "n<=0 must also be rejected", 0,
-            EigensolverBridge.solveEigensystemRaw(DoubleArray(0), DoubleArray(0), 0).size
+            0,
+            EigensolverBridge.solveEigensystemRaw(DoubleArray(0), DoubleArray(0), 0).size,
+            "n<=0 must also be rejected"
         )
 
         // And the empty return must surface as an exception, not zero modes.
-        try {
+        assertThrows(IllegalStateException::class.java, {
             EigensystemResult.unpack(raw, 4)
-            fail("expected unpack() to reject the native empty array")
-        } catch (e: IllegalStateException) { /* expected */
-        }
+        }, "expected unpack() to reject the native empty array")
     }
 
     @Test
@@ -128,10 +122,8 @@ class DeviceVerificationTest {
         // vector used to reach the native side and come back as a confusing
         // "size mismatch" naming the symptom instead of the cause.
         val k = Array(3) { i -> DoubleArray(3) { j -> if (i == j) 1.0 else 0.0 } }
-        try {
+        assertThrows(IllegalArgumentException::class.java, {
             EigensolverBridge.solve(k, DoubleArray(2))
-            fail("expected an exception for a mismatched mass vector")
-        } catch (e: IllegalArgumentException) { /* expected */
-        }
+        }, "expected an exception for a mismatched mass vector")
     }
 }
